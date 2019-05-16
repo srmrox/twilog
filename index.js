@@ -5,17 +5,14 @@ var express = require('express');           // express server
 var bodyParser = require('body-parser');    // help with templating using ejs
 var request = require('request');           // handles HTTP requests
 var qs = require('querystring');            // parse and build query strings
-
-var twitterAuth = require('./config.js');   // this helps keep the Twitter secret keys in a separate file that does not get
-                                            // shared onto the public repo. this is done by commiting and pushing a template
-                                            // of the config file and then adding it to gitignore so further updates are not
-                                            // synced
+var config = require('./config.js');        
 
 var oauth = {                               // the oauth object
-    callback : twitterAuth.callbackURL,
-    consumer_key  : twitterAuth.consumerKey,
-    consumer_secret : twitterAuth.consumerSecret,
-  }
+    callback : config.callbackURL,
+    consumer_key  : config.consumerKey,
+    consumer_secret : config.consumerSecret
+}
+
 var oauthToken = "";
 var oauthTokenSecret = "";
 
