@@ -4,6 +4,7 @@
   "description": "Demo of authenticating a user on Twitter using API",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "jest"
   },
   "repository": {
