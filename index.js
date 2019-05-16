@@ -6,11 +6,6 @@ var bodyParser = require('body-parser');    // help with templating using ejs
 var request = require('request');           // handles HTTP requests
 var qs = require('querystring');            // parse and build query strings
 
-var twitterAuth = require('./config.js');   // this helps keep the Twitter secret keys in a separate file that does not get
-                                            // shared onto the public repo. this is done by commiting and pushing a template
-                                            // of the config file and then adding it to gitignore so further updates are not
-                                            // synced
-
 var oauth = {                               // the oauth object
     callback : process.env.CALLBACK_URL,
     consumer_key  : process.env.CONSUMER_KEY,
