@@ -12,10 +12,11 @@ var twitterAuth = require('./config.js');   // this helps keep the Twitter secre
                                             // synced
 
 var oauth = {                               // the oauth object
-    callback : twitterAuth.callbackURL,
-    consumer_key  : twitterAuth.consumerKey,
-    consumer_secret : twitterAuth.consumerSecret,
-  }
+    callback : process.env.CALLBACK_URL,
+    consumer_key  : process.env.CONSUMER_KEY,
+    consumer_secret : process.env.CONSUMER_SECRET
+}
+
 var oauthToken = "";
 var oauthTokenSecret = "";
 
