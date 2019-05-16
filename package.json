@@ -1,0 +1,30 @@
+{
+  "name": "twilog",
+  "version": "1.0.0",
+  "description": "Demo of authenticating a user on Twitter using API",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srmrox/twilog.git"
+  },
+  "keywords": [
+    "twitter",
+    "authentication",
+    "oauth"
+  ],
+  "author": "srmrox",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/srmrox/twilog/issues"
+  },
+  "homepage": "https://github.com/srmrox/twilog#readme",
+  "devDependencies": {
+    "jest": "^24.8.0"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
