@@ -11,24 +11,22 @@ var twitterAuth = require('./config.js');   // this helps keep the Twitter secre
                                             // of the config file and then adding it to gitignore so further updates are not
                                             // synced
 
-const requestTokenUrl = "https://api.twitter.com/oauth/request_token";
-
-var oauth = {                                               // the oauth object
+var oauth = {                               // the oauth object
     callback : twitterAuth.callbackURL,
     consumer_key  : twitterAuth.consumerKey,
-    consumer_secret : twitterAuth.consumerSecret
+    consumer_secret : twitterAuth.consumerSecret,
   }
 var oauthToken = "";
 var oauthTokenSecret = "";
-var name = 'name';                                          // varible to store the name of the Twitter user
 
 var app = express();                                        // declare our app using Express
-const PORT = 3000;                                          // assign port number, could be any unused port
+const PORT = 8080;                                          // assign port number, could be any unused port
 app.set('view engine', 'ejs');                              // use ejs as the template engine for the app
 app.use(bodyParser.urlencoded({ extended: true }));         // setup bodyparse to work with our app
 
-app.get('/', (req, res) => {
-        request.post({url : requestTokenUrl, oauth : oauth}, function (e, r, body){     // send a POST request to the RequestToken URL with the OAuth object
+app.get('/', (req, res) => {                                                            // main entry to the app
+    var requestTokenUrl = "https://api.twitter.com/oauth/request_token";
+    request.post({url : requestTokenUrl, oauth : oauth}, (e, r, body) => {              // send a POST request to the RequestToken URL with the OAuth object
         var reqData = qs.parse(body);                                                   // read the result received and set
         oauthToken = reqData.oauth_token;                                               // oauthToken
         oauthTokenSecret = reqData.oauth_token_secret;                                  // and oauthTokenSecret
@@ -37,13 +35,20 @@ app.get('/', (req, res) => {
     });
 });
 
-// this code will run when we open our application
-// this is a GET request to localhost:port
-app.get('/', function (req, res) {
-    console.log(`Twitter name: ${name}`);       // log retrieved name to console
-                                                // note the use of ` (backtick) and ${varname} to include variable value
-                                                // within the string
-  });
+app.get('/signin', (req, res) => {                  // call back entry after approving application
+    console.log("Processing auth");
+    var authReqData = req.query;                    // read query
+    oauth.token = authReqData.oauth_token;          // update oauth token
+    oauth.token_secret = oauthTokenSecret;          // use the same oauth secret
+    oauth.verifier = authReqData.oauth_verifier;    // add in the oauth verifier
+  
+    var accessTokenUrl = "https://api.twitter.com/oauth/access_token";
+    request.post({url : accessTokenUrl , oauth : oauth}, (e, r, body) => {              // send a POST request to get access tokens
+        var authenticatedData = qs.parse(body);                                         // parse the response received
+        console.log(authenticatedData);                                                 // log auth data to console
+        res.render('tweets', {name: authenticatedData.screen_name});
+    });
+});
 
 app.listen(PORT, function(){
     console.log(`Server up: http://localhost:${PORT}`);
